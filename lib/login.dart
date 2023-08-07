@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:practice/home.dart';
 
+void main(){
+  runApp(MaterialApp(debugShowCheckedModeBanner:false, home: LoginPage(),));
+}
+
 class LoginPage extends StatelessWidget{
 
   String uname="admin";

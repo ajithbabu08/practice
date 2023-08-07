@@ -48,7 +48,7 @@ class ListView2 extends StatelessWidget {
                 children: [
                   Text("1:30"),
                   SizedBox(width: 10),
-                  CircleAvatar(minRadius: 4,maxRadius: 10,backgroundColor: Colors.teal,
+                  CircleAvatar(minRadius: 6,maxRadius: 12,backgroundColor: Colors.teal,
                   child: Text("10"),)
                 ]
             ),

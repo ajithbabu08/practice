@@ -4,6 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:practice/home.dart';
 import 'package:practice/registration.dart';
 
+
+void main(){
+  runApp(MaterialApp(debugShowCheckedModeBanner:false, home: Login2(),));
+}
+
 class Login2 extends StatefulWidget{
   @override
   State<Login2> createState()=> _Login2State();
