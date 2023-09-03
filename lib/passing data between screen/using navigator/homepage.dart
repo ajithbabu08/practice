@@ -1,8 +1,8 @@
 import 'dart:js';
 
 import 'package:flutter/material.dart';
-import 'package:practice/passing%20data%20between%20screen/details%20page.dart';
-import 'package:practice/passing%20data%20between%20screen/dummy%20data.dart';
+import 'package:practice/passing%20data%20between%20screen/using%20navigator/details%20page.dart';
+import 'package:practice/passing%20data%20between%20screen/using%20navigator/dummy%20data.dart';
 
 void main(){
   runApp(MaterialApp(home: ProductHome(),
