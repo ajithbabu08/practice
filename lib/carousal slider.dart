@@ -7,7 +7,6 @@ void main(){
 
 class Cslider extends StatelessWidget {
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
