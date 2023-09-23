@@ -1,130 +1,145 @@
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:practice/storages%20in%20flutter/sqflite%20operation/sqflite%20crud/login%20reg%20assignment/register%20ui.dart';
+import 'package:practice/storages%20in%20flutter/sqflite%20operation/sqflite%20crud/login%20reg%20assignment/sqfliteprograms.dart';
 
+import 'adminpage.dart';
 import 'homepage.dart';
+import 'login signup page.dart';
 
-
-
-class Login extends StatefulWidget {
+class Login_Form extends StatefulWidget {
   @override
-  State<Login> createState()=> _LoginState();
-
+  State<Login_Form> createState() => _Login_FormState();
 }
-class _LoginState extends State<Login>{
 
-  String email = "ajith@gmail";
-  String password = "123456";
-  bool passwordvisibility=true;
+class _Login_FormState extends State<Login_Form> {
+  var formkey = GlobalKey<FormState>();
+  final TextEditingController conemail = TextEditingController();
+  final TextEditingController conpass = TextEditingController();
 
-  TextEditingController emailcontroller = TextEditingController();
-  TextEditingController passcontroller = TextEditingController();
+  void logincheck(String email, String password) async {
+    ///Admin login
+    if (email == 'admin@gmail.com' && password == '123456') {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => AdminHome()));
+    } else {
+      ///check if user already exit
+      var data = await SQLHelp.CheckLogin(email, password);
+
+      /// if user found in db
+      if (data.isNotEmpty) {
+        Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => Home(
+              data: data,
+            )));
+        print('Login Success');
+
+        ///if user not fond in DB
+      } else if (data.isEmpty) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Login_Signup()));
+        print('Login faild');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool hidepass = true;
     return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-
-            children: [
-
-              const Padding(
-                padding: EdgeInsets.only(left: 100,right:100,top: 100),
-                child: Text("Login",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10,right: 10,top: 10),
-                child: Text("Welcome back! Login with your credentials",style: TextStyle(fontSize: 10),),
-              ),
-
-
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextField(
-                  controller: emailcontroller,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.contact_mail_outlined),
-                      hintText: "Email ID"),
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.only(left: 20, right: 20, bottom: 50),
-
-                child: TextField(
-                  controller: passcontroller,
-                  obscureText: passwordvisibility,
-                  obscuringCharacter: "*",
-                  decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: (){
-                            setState(() {
-                              if(passwordvisibility==true){
-                                passwordvisibility=false;
-                              }else{
-                                passwordvisibility=true;
-                              }
-                            });
-                          },
-                          icon: Icon(passwordvisibility==true
-                              ? Icons.visibility_off_sharp
-                              : Icons.visibility)
-                      ),
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.visibility_off_sharp),
-                      hintText: "Password"),
-                ),
-              ),
-
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: ElevatedButton(onPressed: () {
-                  if ( email== emailcontroller.text &&
-                      password == passcontroller.text) {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Homepage()));
-
-                    emailcontroller.text = "";
-                    passcontroller.text = "";
-                  } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Invalid username or password"),
-                    //   backgroundColor: Colors.blue,));
-                    // }
-
-                    Fluttertoast.showToast(
-                        msg: "Invalid Username or Password",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.TOP,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0
-                    );
+      appBar: AppBar(
+        title: const Text("LOGIN PAGE"),
+      ),
+      body: Form(
+        key: formkey,
+        child: ListView(
+          children: [
+            const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    "Login Page",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                )),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: TextFormField(
+                controller: conemail,
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.drive_file_rename_outline),
+                    labelText: "Email",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    )),
+                validator: (text) {
+                  if (text!.isEmpty ||
+                      !text.contains('@') ||
+                      !text.contains(".")) {
+                    return "Enter valid Email!!!";
                   }
                 },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      minimumSize: Size(350, 50),
-                    ),
-                    child: const Text("Login")),
+                textInputAction: TextInputAction.next,
               ),
-
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 200),
-                child: TextButton(onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Signup()));
-                }, child: Text("New User ? Sign Up")),
-              )
-            ],
-          ),
-        )
+            ),
+            Padding(
+                padding: const EdgeInsets.all(20),
+                child: TextFormField(
+                  controller: conpass,
+                  obscureText: hidepass,
+                  obscuringCharacter: "*",
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (hidepass)
+                            hidepass = false;
+                          else
+                            hidepass = true;
+                        });
+                      },
+                      icon: Icon(
+                          hidepass ? Icons.visibility : Icons.visibility_off),
+                    ),
+                    labelText: "Password",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  validator: (pass) {
+                    if (pass!.isEmpty || pass.length < 6) {
+                      return "Password length should be greater than 6";
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                )),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: MaterialButton(
+                color: Colors.pink,
+                textColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                onPressed: () {
+                  final valid = formkey.currentState!.validate();
+                  if (valid) {
+                    logincheck(conemail.text, conpass.text);
+                  } else {}
+                },
+                child: const Text("LOGIN"),
+              ),
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Signup_Form()));
+                },
+                child: const Text('Not a User? Register Here!!!'))
+          ],
+        ),
+      ),
     );
   }
 }

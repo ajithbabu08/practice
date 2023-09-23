@@ -1,173 +1,187 @@
-
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:practice/storages%20in%20flutter/sqflite%20operation/sqflite%20crud/login%20reg%20assignment/sqfliteprograms.dart';
 
 import 'login ui.dart';
 
-class Signup extends StatefulWidget {
-
-  @override
-  State<Signup> createState()=> _SignupState();
-}
-
-class _SignupState extends State<Signup>{
-
-  var formkey=GlobalKey<FormState>();
-  bool passvisibility1=true;
-  bool passvisibility2=true;
-  String? password;
+class Signup_Form extends StatelessWidget {
+  var formkey1 = GlobalKey<FormState>();
+  var conname = TextEditingController();
+  var conemail = TextEditingController();
+  var pass = TextEditingController();
+  var cpass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
-      body: Form(
-          key: formkey,
+    void Addnewuser(String name, String email, String password) async {
+      var id = await SQLHelp.AddNewUser(name, email, password);
+      if (id != null) {   /// if registration is success goto login page
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(
+            builder: (context) => Login_Form()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content:
+            Text('Registration not Successful')));
+      }
+    }
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Form(
+          key: formkey1,
           child: Column(
             children: [
-
-
               const Padding(
-                padding: EdgeInsets.only(left: 100,right:100,top: 100),
-                child: Text("Sign Up",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10,right: 10,top: 10),
-                child: Text("Create an Account, It's free",style: TextStyle(fontSize: 10),),
-              ),
-
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Email ID",
-                        prefixIcon: Icon(Icons.contact_mail_outlined),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
-                    validator: (username){
-                      if(username!.isEmpty || !username.contains("@")){
-                        return "Fields are empty or Invalid";
-                      }else{
-                        return null;
-                      }
-                    }
+                padding: EdgeInsets.only(top: 100.0),
+                child: Text(
+                  "Sign up",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                 ),
               ),
-
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  "create an Account,Its free",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(25.0),
                 child: TextFormField(
-                  obscuringCharacter: "*",
-                  obscureText: passvisibility1,
-
-                  decoration: InputDecoration(
-
-                      prefixIcon: Icon(Icons.visibility_off_sharp),
-
-                      suffixIcon: IconButton(
-                          onPressed: (){
-                            setState(() {
-                              if(passvisibility1==true){
-                                passvisibility1=false;
-                              }else{
-                                passvisibility1=true;
-                              }
-                            });
-                          },
-                          icon: Icon(passvisibility1==true
-                              ? Icons.visibility_off_sharp
-                              : Icons.visibility)
-                      ),
-
-                      hintText: "Password",
+                  controller: conname,
+                  validator: (email) {
+                    if (email!.isEmpty) {
+                      return "Name is required";
+                    } else
+                      return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      labelText: "Name",
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50))),
-                  validator: (pass){
-                    password=pass;
-
-                    if(pass!.isEmpty || pass.length<6){
-                      return "Fields are empty or Password length must be greaterthan 6";
-                    }else{
-                      return null;
-                    }
-                  },
+                          borderRadius: BorderRadius.all(Radius.circular(5)))),
                 ),
               ),
-
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(25.0),
                 child: TextFormField(
-
-                  obscuringCharacter: "*",
-                  obscureText: passvisibility2,
-
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.visibility_off_sharp),
-
-                      suffixIcon: IconButton(
-                          onPressed: (){
-                            setState(() {
-                              if(passvisibility2==true){
-                                passvisibility2=false;
-                              }else{
-                                passvisibility2=true;
-                              }
-                            });
-                          },
-                          icon: Icon(passvisibility2==true
-                              ? Icons.visibility_off_sharp
-                              : Icons.visibility)
-                      ),
-
-                      hintText: "Confirm Password",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
-
-                  validator: (cpass){
-
-                    if(cpass!.isEmpty || cpass!=password){
-                      return "Fields are empty or Password length must be greaterthan 6";
-                    }else{
+                  controller: conemail,
+                  validator: (email) {
+                    if (email!.isEmpty ||
+                        !email.contains("@") ||
+                        !email.contains(".")) {
+                      return "Enter valid email";
+                    } else
+                      return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      labelText: "Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)))),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: TextFormField(
+                  validator: (pass1) {
+                    if (pass1!.isEmpty || pass1.length < 6) {
+                      return "Password must should be greater than 6";
+                    } else {
                       return null;
                     }
                   },
-
+                  textInputAction: TextInputAction.next,
+                  controller: pass,
+                  obscureText: true,
+                  obscuringCharacter: '*',
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.lock),
+                      labelText: "Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)))),
                 ),
               ),
-
               Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: ElevatedButton(onPressed: (){
-                  final valid=formkey.currentState!.validate();
-                  if(valid){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Login()));
-                  }else{
-                    Fluttertoast.showToast(
-                        msg: "Invalid Username or Password",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.TOP,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0
-                    );
-                  }
-                },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      minimumSize: Size(350, 50),
-                    ),
-                    child: const Text("Sign UP")),
+                padding: const EdgeInsets.all(25.0),
+                child: TextFormField(
+                  validator: (pass1) {
+                    if (pass1!.isEmpty || pass1.length < 6) {
+                      return "Password must should be greater than 6";
+                    } else if (pass.text != cpass.text) {
+                      return "Password not matched";
+                    } else {
+                      return null;
+                    }
+                  },
+                  controller: cpass,
+                  obscureText: true,
+                  obscuringCharacter: '*',
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.lock),
+                      labelText: "Confirm Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)))),
+                ),
               ),
-              TextButton(onPressed: (){
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Login()));
-              }, child: const Text("Already have an account ? Login"))
-            ],
-          )
+              ElevatedButton(
+                  style: ButtonStyle(
+                      minimumSize:
+                      MaterialStateProperty.all(const Size(330, 50)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ))),
 
+                  onPressed: () async {
+                    final valid1 = formkey1.currentState!.validate();
+                    if (valid1) {
+                      /// if form state is valid data from the textfield will upload to db
+                      var data = await SQLHelp.userFound(conname.text, conemail.text);
+
+                      if (data.isNotEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('User already exist')));
+                      } else {
+                        Addnewuser(conname.text, conemail.text, pass.text);
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          action: SnackBarAction(label: 'UNDO', onPressed: () {}),
+                          content: const Text('Invalid username / password')));
+                    }
+                  },
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(color: Colors.black),
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Alredy have an account?"),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Login_Form()));
+                      },
+                      child: const Text(
+                        "Login!!",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      )),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
-
   }
 }

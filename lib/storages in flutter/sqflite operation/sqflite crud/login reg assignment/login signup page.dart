@@ -1,68 +1,75 @@
-
 import 'package:flutter/material.dart';
 import 'package:practice/storages%20in%20flutter/sqflite%20operation/sqflite%20crud/login%20reg%20assignment/register%20ui.dart';
 
 import 'login ui.dart';
 
-
 void main(){
-  runApp(MaterialApp(debugShowCheckedModeBanner:false, home: login_signup(),));
+  runApp(MaterialApp(debugShowCheckedModeBanner:false,
+    home: Login_Signup(),));
 }
-class login_signup extends StatefulWidget {
+
+class Login_Signup extends StatefulWidget {
+  const Login_Signup({Key? key}) : super(key: key);
 
   @override
-  State<login_signup> createState() => _login_signupState();
+  State<Login_Signup> createState() => _Login_SignupState();
 }
 
-class _login_signupState extends State<login_signup> {
+class _Login_SignupState extends State<Login_Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 100,right:100,top: 100),
-                child: Text("Hello There!",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10,right: 10,top: 10),
-                child: Text("Automatic identity verification which enables you to verify your identity",style: TextStyle(fontSize: 10),),
-              ),
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 80.0),
+              child: Text("Hello There!",style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold),),
+            ),
+            const Padding(
 
-              Image.asset("assets/images/loginsignup logo.png",height: 220,width: 300,),
+              padding: EdgeInsets.all(25.0),
+              child: Text(
+                "Automatic identity verification which enable you to verify your identity",textAlign: TextAlign.center,style: TextStyle(color: Colors.grey),),
+            ),
+            Image.network('https://t3.ftcdn.net/jpg/03/39/70/90/360_F_339709048_ZITR4wrVsOXCKdjHncdtabSNWpIhiaR7.jpg'),
 
-              Padding(
-                padding:  const EdgeInsets.only(top: 50),
-                child: ElevatedButton(onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
-                },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      minimumSize: Size(250, 50),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blueAccent.shade700),
+                    minimumSize: MaterialStateProperty.all(Size(330, 50)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
                     ),
-                    child: Text("Login")),
-              ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_Form()));
+                  }, child: Text("Login",style: TextStyle(color: Colors.white),)),
+            ),
+            SizedBox(height: 30,),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.pink),
+                    minimumSize: MaterialStateProperty.all(Size(330, 50)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
 
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: ElevatedButton(onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Signup()));
-                },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      minimumSize: Size(250, 50),
-                    ),
-                    child: Text("Sign Up")),
-              ),
-
-
-            ],
-          ),
-        )
-
+                        )
+                    )
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Signup_Form()));
+                }, child: Text("Sign Up",style: TextStyle(color: Colors.white),)),
+          ],
+        ),
+      ),
     );
   }
 }
