@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1014370530490",
-    "project_id": "fir-exammple-cdbce",
-    "storage_bucket": "fir-exammple-cdbce.appspot.com"
+    "project_number": "905081215074",
+    "project_id": "fir-first-d8286",
+    "storage_bucket": "fir-first-d8286.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1014370530490:android:a0bc469274b9665e657e83",
+        "mobilesdk_app_id": "1:905081215074:android:925d61a8a8c83db3b5993b",
         "android_client_info": {
           "package_name": "com.ajith.practice"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCetSdseawQF_nnmhSs9afI28Cm6zRwtiU"
+          "current_key": "AIzaSyCpuW8QvRwU0--OuXiCgwemiZ7E_1ne25k"
         }
       ],
       "services": {

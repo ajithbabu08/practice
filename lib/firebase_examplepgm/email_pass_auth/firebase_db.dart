@@ -27,7 +27,7 @@ get user=>auth.currentUser;
 
 
 ///logout
-Future<void> logOut()async{
+Future<void> signOut()async{
     await auth.signOut();
 }
 

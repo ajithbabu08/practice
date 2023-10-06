@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:practice/firebase_examplepgm/email_pass_auth/firebase_db.dart';
+import 'package:practice/firebase_examplepgm/email_pass_auth/register_fir.dart';
 
 import 'home_fir.dart';
 
@@ -10,7 +11,13 @@ import 'home_fir.dart';
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyCpuW8QvRwU0--OuXiCgwemiZ7E_1ne25k",
+        appId: "1:905081215074:android:925d61a8a8c83db3b5993b",
+        messagingSenderId: "",
+        projectId: "fir-first-d8286")
+  );
   User? user=FirebaseAuth.instance.currentUser;
   runApp(MaterialApp(home: user==null? Login_fire() : Home_Fire(),));
 }
@@ -63,7 +70,9 @@ class _Login_fireState extends State<Login_fire> {
           },
               child: const Text("Login")),
           SizedBox(height: 15,),
-          TextButton(onPressed: (){}, child: const Text("Register Here"))
+          TextButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Reg_fire()));
+          }, child: const Text("Not a User? Register Here !!"))
         ],
       ),
     );
