@@ -52,6 +52,8 @@ dependencies:
   #get
 
 
+  provider: ^6.0.4
+
   #api integration using dio
   dio:
   scrollable_positioned_list:
@@ -64,11 +66,17 @@ dependencies:
   firebase_core: ^2.17.0
   firebase_auth: ^4.10.1
 
+  #phone authentication
+  intl_phone_field:
+
   #firebase_storage
   #firebase_core: ^2.17.0
   firebase_storage: ^11.2.8
   image_picker: ^1.0.4
   path: ^1.8.3
+
+  #permission
+  permission_handler: ^11.0.1
 
 
 
