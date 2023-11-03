@@ -67,6 +67,9 @@ dependencies:
   firebase_core: ^2.17.0
   firebase_auth: ^4.10.1
 
+  #google sign in
+  google_sign_in: ^6.1.5
+
   #phone authentication
   intl_phone_field: ^3.2.0
 
